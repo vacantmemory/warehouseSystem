@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Easy Found Warehouse System</title>
+</head>
+<style>
+    h1 {
+        text-align: center;
+    }
+    table {
+        width: 80%;
+        height: 600px;
+    }
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    input, button{
+        padding: 10px 30px;
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+<body>
+<script language="JavaScript">
+    function graph(){
+        x = {{ x }}
+        y = {{ y }}
+        document.write("<table>");
+        for(var i = 0; i <= y; i++){
+            document.write("<tr>");
+            for(var j = 0; j <= x; j++){
+                document.write("<td>" + "</td>");
+            }
+            document.write("</tr>");
+        }
+        document.write("</table>");
+    }
+</script>
+
+    <div>
+        <h1>
+            Easy Found Warehouse System
+        </h1>
+    </div>
+    <div>
+        <form action="/system/search" method="get">
+            <label for="ProductID">ProductID</label>
+            <input type="text" id="pid" name="pid" value = {{ val }}>
+            <button type="submit" value="Add" id="Add">Add</button>
+        </form>
+    </div>
+    <div>
+        <script>graph();</script>
+    </div>
+
+
+<script>
+    var tdArr = document.getElementsByTagName('td');
+    function shelf(tdArr){
+        shelf_location = {{ shelf_location }};
+        for(l of shelf_location){
+            tdArr[l].bgColor = 'red';
+        }
+    }
+    {#starting point (1,1) #}
+    tdArr[21*40+1].bgColor = 'yellow';
+    {#shelf location#}
+    shelf(tdArr);
+</script>
+<script>
+    {#selected production location#}
+    target = {{ res }};
+    tdArr[target].bgColor = 'blue';
+    {#path from starting point to the selected production location#}
+    path = {{ path }};
+    for(p of path){
+        tdArr[p].bgColor = 'green';
+    }
+</script>
+</body>
+</html>
+
+
+{#<script src = "{% static 'jquery-3.6.0.min.js' %}">#}
+{##}
+{#    $(document).ready(function() {#}
+{#            $("#Add").click(function() {#}
+{#                var pid = $("#pid").val();#}
+{#                $.ajax("/system/search", {pid: 'pid'}, function (ret) {#}
+{#                    tdArr[parseInt(ret)].bgColor = 'blue'#}
+{#                })#}
+{#            });#}
+{#        })#}
+{#</script>#}
